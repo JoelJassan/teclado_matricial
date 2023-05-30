@@ -24,14 +24,14 @@ architecture a_bloque_antirrebote_tb of bloque_antirrebote_tb is
     ----- Constants -------------------------------------------------------------------------------
 
     constant delay_count     : integer := 50000;
-    constant number_of_ports : integer := 6;
+    constant number_of_ports : integer := 4;
 
     ----- Simulation ------------------------------------------------------------------------------
     constant clk_period      : time := 20 ns;
     constant reset_off_time  : time := 80 ns;
     constant enable_off_time : time := 100 ns;
     constant simulation_time : time := 10 ms;
-    constant extra_time      : time := delay_count/10 * clk_period;
+    constant extra_time      : time := delay_count/4 * clk_period;
 
     ----- Signals (i: entrada, o:salida, s:señal intermedia) --------------------------------------
     signal clk_i, rst_i, enable_i : std_logic;
@@ -81,15 +81,16 @@ begin
     ejecucion : process
     begin
         in_ports <= (others => '0');
-        wait for delay_count * clk_period;
+        wait for clk_period * delay_count;
         wait for extra_time;
         in_ports(1) <= '1';
-        wait for delay_count * clk_period;
+        wait for clk_period * delay_count;
         wait for extra_time;
+        in_ports(2) <= '1';
+        wait for clk_period * delay_count/2;
         in_ports(0) <= '1';
-        wait for delay_count * clk_period;
-        wait for extra_time;
-        --in_ports <= "101100";
+        wait for clk_period * delay_count/2;
+        in_ports <= (others => '0');
         wait;
     end process;
     --
