@@ -3,7 +3,8 @@
 -- Autor: Jassan, Joel
 -- Date: (mmm/YYYY)
 -- 
--- Proyect Explanation:
+-- Proyect Explanation: testbench de one_hot.vhd
+-- El proyecto solo corre la simulacion para ver la forma de onda de salida.
 --
 --
 -- Copyright 2023, Joel Jassan <joeljassan@hotmail.com>

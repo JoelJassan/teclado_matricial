@@ -6,6 +6,7 @@
 -- Proyect Explanation: Implementacion de un sistema con salida one_hot, con parametros genericos.
 -- Se puede ajustar cada cuant os pulsos de reloj (de 50MHz) se actualiza la salida.
 --
+--
 -- Copyright 2023, Joel Jassan <joeljassan@hotmail.com>
 -- All rights reserved.
 ---------------------------------------------------------------------------------------------------
