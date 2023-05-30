@@ -5,7 +5,7 @@ CMP_DIR = ./components
 TB_DIR  = ./testbench
 
 # archivos
-MAIN_FILE = one_hot
+MAIN_FILE = bloque_antirrebote
 TB_FILE = $(MAIN_FILE)_tb
 VCD_FILE = $(TB_FILE).vcd
 
@@ -14,7 +14,7 @@ EXT = .vhd
 
 
 # ghdl config
-TIME = 4ms
+TIME = 20ms
 GHDL_SIM_TIME = --stop-time=$(TIME)
 COMPILATION_VERSION = 08	#2008 standard de VHDL
 COMPILATION = --std=$(COMPILATION_VERSION)
