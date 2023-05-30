@@ -1,10 +1,9 @@
 -- VHDL file
 --
 -- Autor: Jassan, Joel
--- Date: (may/2023)
+-- Date: (mmm/YYYY)
 -- 
--- Proyect Explanation: testbench de contador.vhd
--- El proyecto solo corre la simulacion para ver la forma de onda de salida.
+-- Proyect Explanation:
 --
 --
 -- Copyright 2023, Joel Jassan <joeljassan@hotmail.com>
@@ -14,33 +13,35 @@
 library ieee;
 use ieee.std_logic_1164.all;
 
-entity contador_tb is
+entity one_hot_tb is
 end entity;
 
-architecture a_contador_tb of contador_tb is
+architecture a_one_hot_tb of one_hot_tb is
 
     ----- Typedefs --------------------------------------------------------------------------------
 
     ----- Constants -------------------------------------------------------------------------------
-    constant counts : integer := 10;
+    constant counts_to_switch       : integer := 10;
+    constant number_of_output_ports : integer := 5;
 
     ----- Simulation ------------------------------------------------------------------------------
     constant clk_period      : time := 10 ns;
     constant reset_off_time  : time := 80 ns;
     constant enable_off_time : time := 100 ns;
-    constant simulation_time : time := 5000 ns; --esto no funciona
+    constant simulation_time : time := 5000 ns;
+
     ----- Signals (i: entrada, o:salida, s:señal intermedia) --------------------------------------
     signal clk_i, rst_i, enable_i : std_logic;
 
     --component inputs
 
     --component outputs
-    signal clk_enable : std_logic;
+    signal one_hot_out_ports : std_logic_vector(number_of_output_ports - 1 downto 0);
 begin
     ----- Component to validate -------------------------------------------------------------------
-    count : entity work.contador
-        generic map(counts)
-        port map(clk_i, rst_i, clk_enable);
+    one_hot_test : entity work.one_hot
+        generic map(counts_to_switch, number_of_output_ports)
+        port map(clk_i, rst_i, one_hot_out_ports);
     ----- Code ------------------------------------------------------------------------------------
 
     -- clock stimulus
