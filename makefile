@@ -31,11 +31,12 @@ all: compile execute run view
 compile:
 	ghdl -a $(COMPILATION) $(CMP_DIR)/*.vhd
 	ghdl -a $(COMPILATION) $(SRC_DIR)/*.vhd
+	ghdl -a $(COMPILATION) $(MAIN_DIR)/*.vhd
 	ghdl -a $(COMPILATION) $(TB_DIR)/*.vhd
 
 # order: cmp -> src -> main -> tb	
 backup:
-	ghdl -a $(COMPILATION) $(MAIN_DIR)/*.vhd
+	
 	
 	
 execute:
