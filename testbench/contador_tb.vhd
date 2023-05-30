@@ -22,13 +22,13 @@ architecture a_contador_tb of contador_tb is
     ----- Typedefs --------------------------------------------------------------------------------
 
     ----- Constants -------------------------------------------------------------------------------
+    constant counts : integer := 10;
+
+    ----- Simulation ------------------------------------------------------------------------------
     constant clk_period      : time := 10 ns;
     constant reset_off_time  : time := 80 ns;
     constant enable_off_time : time := 100 ns;
     constant simulation_time : time := 5000 ns; --esto no funciona
-
-    ----- Simulation ------------------------------------------------------------------------------
-
     ----- Signals (i: entrada, o:salida, s:señal intermedia) --------------------------------------
     signal clk_i, rst_i, enable_i : std_logic;
 
@@ -39,8 +39,8 @@ architecture a_contador_tb of contador_tb is
 begin
     ----- Component to validate -------------------------------------------------------------------
     count : entity work.contador
-        generic map(10, 10)
-        port map(clk_i, rst_i, clk_enable, open);
+        generic map(counts)
+        port map(clk_i, rst_i, clk_enable);
     ----- Code ------------------------------------------------------------------------------------
 
     -- clock stimulus
@@ -83,7 +83,7 @@ begin
     -- End of test
     stop : process
     begin
-        wait for 5000 ns; --tiempo total de
+        wait for simulation_time; --tiempo total de
         std.env.stop;
     end process;
 
