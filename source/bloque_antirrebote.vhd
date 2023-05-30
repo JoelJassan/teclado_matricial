@@ -51,7 +51,7 @@ begin
     gen_components : for i in (number_of_ports - 1) downto 0 generate
         modulo_antirrebote : entity work.antirrebote
             generic map(delay_count)
-            port map(clk, enable_ports_s(i), in_ports_s(i), out_ports_s(i));
+            port map(enable_ports_s(i), in_ports_s(i), out_ports_s(i));
     end generate;
 
     ----- Codigo ----------------------------------------------------------------------------------

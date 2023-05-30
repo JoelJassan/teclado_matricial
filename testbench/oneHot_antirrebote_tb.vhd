@@ -24,14 +24,15 @@ architecture a_oneHot_antirrebote_tb of oneHot_antirrebote_tb is
 
     ----- Constants -------------------------------------------------------------------------------
 
-    constant counts_to_switch       : integer := 20;
+    constant counts_to_switch       : integer := 4;
     constant number_of_output_ports : integer := 4;
+    constant number_of_cycles       : integer := 20; --counts_to_switch/50;
 
     ----- Simulation ------------------------------------------------------------------------------
     constant clk_period      : time := 10 ns;
     constant reset_off_time  : time := 80 ns;
     constant enable_off_time : time := 100 ns;
-    constant simulation_time : time := 100000 ns;
+    constant simulation_time : time := 20 ms;
 
     ----- Signals (i: entrada, o:salida, s:señal intermedia) --------------------------------------
     signal clk_i, rst_i, enable_i : std_logic;
@@ -53,8 +54,8 @@ begin
         port map(clk_i, rst_i, one_hot_out_ports);
 
     bloque_ar_test : entity work.bloque_antirrebote
-        generic map(counts_to_switch + counts_to_switch/10, number_of_output_ports)
-        port map(clk_i, enable_ports, in_ports, out_ports);
+        generic map((number_of_cycles - 3), number_of_output_ports)
+        port map(clk_i, one_hot_out_ports, in_ports, out_ports);
 
     ----- Code ------------------------------------------------------------------------------------
 
@@ -94,12 +95,19 @@ begin
     ejecucion : process
     begin
         matrix_data <= "0000";
-        wait for 100 * clk_period;
+        wait for 50000 * clk_period;
         matrix_data <= "0001";
-        wait for 1000 * clk_period;
-        matrix_data <= "0010";
-        wait for 1000 * clk_period;
+        wait for 200000 * clk_period;
+        matrix_data <= "0000";
+        wait for 200000 * clk_period;
         matrix_data <= "0100";
+        wait for 200000 * clk_period;
+        matrix_data <= "1000";
+        wait for 200000 * clk_period;
+        matrix_data <= "0110";
+        wait for 200000 * clk_period;
+        matrix_data <= "0100";
+
         wait;
     end process;
     --
