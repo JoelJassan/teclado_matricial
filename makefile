@@ -5,7 +5,7 @@ CMP_DIR = ./components
 TB_DIR  = ./testbench
 
 # archivos
-MAIN_FILE = bloque_antirrebote
+MAIN_FILE = oneHot_antirrebote
 TB_FILE = $(MAIN_FILE)_tb
 VCD_FILE = $(TB_FILE).vcd
 
