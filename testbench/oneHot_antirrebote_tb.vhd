@@ -31,15 +31,18 @@ architecture a_oneHot_antirrebote_tb of oneHot_antirrebote_tb is
     constant clk_period      : time := 10 ns;
     constant reset_off_time  : time := 80 ns;
     constant enable_off_time : time := 100 ns;
-    constant simulation_time : time := 10000 ns;
+    constant simulation_time : time := 100000 ns;
 
     ----- Signals (i: entrada, o:salida, s:señal intermedia) --------------------------------------
     signal clk_i, rst_i, enable_i : std_logic;
+    signal matrix_data            : std_logic_vector (3 downto 0);
 
     --one_hot
     signal one_hot_out_ports : std_logic_vector(number_of_output_ports - 1 downto 0);
 
     --bloque_arr
+    signal enable_ports : std_logic_vector(number_of_output_ports - 1 downto 0);
+
     signal in_ports  : std_logic_vector(number_of_output_ports - 1 downto 0);
     signal out_ports : std_logic_vector(number_of_output_ports - 1 downto 0);
 
@@ -50,12 +53,10 @@ begin
         port map(clk_i, rst_i, one_hot_out_ports);
 
     bloque_ar_test : entity work.bloque_antirrebote
-        generic map((number_of_output_ports - 1) * counts_to_switch + 5, number_of_output_ports)
-        port map(clk_i, in_ports, out_ports);
+        generic map(counts_to_switch + counts_to_switch/10, number_of_output_ports)
+        port map(clk_i, enable_ports, in_ports, out_ports);
 
     ----- Code ------------------------------------------------------------------------------------
-    -- signals conection
-    in_ports <= one_hot_out_ports;
 
     -- clock stimulus
     reloj : process
@@ -86,8 +87,19 @@ begin
     -- component to validate stimulus
     --
     --
+    -- signals conection
+    enable_ports <= one_hot_out_ports;
+    in_ports     <= matrix_data and one_hot_out_ports; -- simula la matriz
+
     ejecucion : process
     begin
+        matrix_data <= "0000";
+        wait for 100 * clk_period;
+        matrix_data <= "0001";
+        wait for 1000 * clk_period;
+        matrix_data <= "0010";
+        wait for 1000 * clk_period;
+        matrix_data <= "0100";
         wait;
     end process;
     --

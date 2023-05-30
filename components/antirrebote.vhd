@@ -8,6 +8,7 @@ entity antirrebote is
 
 	port (
 		clk      : in std_logic;
+		enable   : in std_logic;
 		tecla_in : in std_logic;
 
 		tecla_out : out std_logic
@@ -22,20 +23,40 @@ architecture antirrebote_a of antirrebote is
 
 begin
 	process (clk)
+		variable flag : bit := '0';
 	begin
 
 		if (rising_edge(clk)) then
+			if (enable = '1') then
+				--no leo las teclas hasta que flag = 0
+				if flag = '1' then
+					if (cnt /= delay_count) then
+						cnt <= cnt + 1;
+					else
+						if (tecla_in xor tecla_prev) = '1' then
 
-			if (tecla_in xor tecla_prev) = '1' then
-				cnt        <= 0;
-				tecla_prev <= tecla_in;
-			elsif cnt < delay_count then
-				cnt <= cnt + 1;
-			else
-				tecla_out <= tecla_prev;
+							tecla_prev <= tecla_in;
+						end if;
+						cnt <= 0;
+						flag := '0';
 
+					end if;
+
+					--if (tecla_in xor tecla_prev) = '1' then
+					--	cnt        <= 0;
+					--	tecla_prev <= tecla_in;
+					--elsif cnt < delay_count then
+					--	cnt <= cnt + 1;
+					--else
+					--	tecla_out <= tecla_prev;
+					--
+					--end if;
+
+				elsif (tecla_in xor tecla_prev) = '1' then
+					flag := '1';
+				end if;
 			end if;
 		end if;
-
+		tecla_out <= tecla_prev;
 	end process;
 end antirrebote_a;

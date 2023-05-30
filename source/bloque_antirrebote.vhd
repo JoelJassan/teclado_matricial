@@ -24,7 +24,8 @@ entity bloque_antirrebote is
 
     port (
         --input ports
-        clk : in std_logic;
+        clk          : in std_logic;
+        enable_ports : in std_logic_vector (number_of_ports - 1 downto 0);
 
         in_ports : in std_logic_vector (number_of_ports - 1 downto 0);
         --output ports
@@ -40,19 +41,17 @@ architecture a_bloque_antirrebote of bloque_antirrebote is
     ----- Constants -------------------------------------------------------------------------------
 
     ----- Signals (i: entrada, o:salida, s:señal intermedia)---------------------------------------
-    signal in_ports_s  : std_logic_vector (number_of_ports - 1 downto 0);
-    signal out_ports_s : std_logic_vector (number_of_ports - 1 downto 0);
+    signal in_ports_s     : std_logic_vector (number_of_ports - 1 downto 0);
+    signal out_ports_s    : std_logic_vector (number_of_ports - 1 downto 0);
+    signal enable_ports_s : std_logic_vector (number_of_ports - 1 downto 0);
 
 begin
     ----- Components ------------------------------------------------------------------------------
-    --ar1 : entity work.antirrebote
-    --    generic map(delay_count)
-    --    port map((clk), in_ports_s(0), out_ports(0));
 
     gen_components : for i in (number_of_ports - 1) downto 0 generate
         modulo_antirrebote : entity work.antirrebote
             generic map(delay_count)
-            port map(clk, in_ports_s(i), out_ports_s(i));
+            port map(clk, enable_ports_s(i), in_ports_s(i), out_ports_s(i));
     end generate;
 
     ----- Codigo ----------------------------------------------------------------------------------
@@ -60,7 +59,8 @@ begin
     -- Logica Estado Siguiente
 
     -- Logica Salida
-    in_ports_s <= in_ports;
-    out_ports  <= out_ports_s;
+    enable_ports_s <= enable_ports;
+    in_ports_s     <= in_ports;
+    out_ports      <= out_ports_s;
 
 end architecture;
