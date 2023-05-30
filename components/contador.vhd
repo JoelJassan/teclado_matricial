@@ -17,7 +17,6 @@ use ieee.numeric_std.all;
 entity contador is
 
 	generic (
-		nbits   : integer := 25;
 		cnt_max : integer := 50000000
 	);
 
@@ -41,7 +40,7 @@ architecture contador_a of contador is
 
 	----- Signals (i: entrada, o:salida, s:señal intermedia)---------------------------------------
 	signal clk_out_s : std_logic;
-	signal q_s       : std_logic_vector(nbits - 1 downto 0);
+	--signal q_s       : std_logic_vector(nbits - 1 downto 0);
 
 begin
 
@@ -63,12 +62,11 @@ begin
 
 		end if;
 
-		q_s <= std_logic_vector(to_unsigned(cnt, q_s'length));
+		--q_s <= std_logic_vector(to_unsigned(cnt, q_s'length));
 
 	end process;
 
 	-- Logica de Salida
-	q            <= q_s;
 	clk_out_port <= clk_out_s;
 
 end contador_a;
