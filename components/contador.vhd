@@ -26,8 +26,8 @@ entity contador is
 		reset : in std_logic;
 
 		--output ports
-		clk_out_port : out std_logic;
-		q            : out std_logic_vector (nbits - 1 downto 0)
+		clk_out_port : out std_logic
+		--q            : out std_logic_vector (nbits - 1 downto 0)
 	);
 
 end entity;
