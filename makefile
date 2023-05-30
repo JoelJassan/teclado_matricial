@@ -5,7 +5,7 @@ CMP_DIR = ./components
 TB_DIR  = ./testbench
 
 # archivos
-MAIN_FILE = 
+MAIN_FILE = contador
 TB_FILE = $(MAIN_FILE)_tb
 VCD_FILE = $(TB_FILE).vcd
 
@@ -30,9 +30,11 @@ all: compile execute run view
 
 compile:
 	ghdl -a $(COMPILATION) $(CMP_DIR)/*.vhd
+	ghdl -a $(COMPILATION) $(TB_DIR)/*.vhd
+backup:
 	ghdl -a $(COMPILATION) $(SRC_DIR)/*.vhd
 	ghdl -a $(COMPILATION) $(MAIN_DIR)/*.vhd
-	ghdl -a $(COMPILATION) $(TB_DIR)/*.vhd
+	
 
 execute:
 	ghdl -e $(COMPILATION) $(TB_FILE)
@@ -48,4 +50,4 @@ vcd:
 
 clean: 
 	rm *.vcd
-	rm work-obj$(COMPILATION_VERSION).cf
+	rm work-obj08.cf
