@@ -4,6 +4,7 @@
 -- Date: (may/2023)
 -- 
 -- Proyect Explanation: implementacion del modulo de union entre one_hot y antirrebote.
+-- Creo que este codigo no lo uso. Fue desarrollado para testing.
 -- El codigo este se desarrolla despues de probar en testbench, y se genera para probarlo en la
 -- FPGA.
 -- El one_hot funciona como reloj del antirrebote. "antirrebote" se actualiza "number_of_cycles"
@@ -20,7 +21,7 @@ use ieee.std_logic_1164.all;
 entity oneHot_antirrebote is
 
     generic (
-        counts_to_switch       : integer := 4; -- cuentas para switchear el one_hot
+        counts_to_switch       : integer := 5; -- cuentas para switchear el one_hot
         number_of_output_ports : integer := 4; -- 4 para la matriz 4x4
         number_of_cycles       : integer := 20 -- cuentas para antirrebote
     );
@@ -62,8 +63,6 @@ begin
     ----- Codigo ----------------------------------------------------------------------------------
 
     -- Logica Estado Siguiente
-    --AQUI HAGO PRUEBAS HASTA ENCONTRAR LA SOLUCION
-
     in_ports_s <= in_ports;
     data       <= in_ports_s and one_hot_out_ports;
 

@@ -1,11 +1,9 @@
 -- VHDL file
 --
 -- Autor: Jassan, Joel
--- Date: (may/2023)
+-- Date: (mmm/YYYY)
 -- 
--- Proyect Explanation: testbench de one_hot con bloque_antirrebote funcionando juntos.
--- El bloque de antirrebote necesita una frecuencia "number_of_ports" mas lenta que el one_hot.
--- Esta prueba me permite saber si va a funcionar al dividir en "number_of_ports" la frecuencia.
+-- Proyect Explanation:
 --
 --
 -- Copyright 2023, Joel Jassan <joeljassan@hotmail.com>
@@ -15,51 +13,38 @@
 library ieee;
 use ieee.std_logic_1164.all;
 
-entity oneHot_antirrebote_tb is
+entity oneHot_antirrebote_deco_tb is
 end entity;
 
-architecture a_oneHot_antirrebote_tb of oneHot_antirrebote_tb is
+architecture a_oneHot_antirrebote_deco_tb of oneHot_antirrebote_deco_tb is
 
     ----- Typedefs --------------------------------------------------------------------------------
 
     ----- Constants -------------------------------------------------------------------------------
-
-    constant counts_to_switch       : integer := 20;
-    constant number_of_output_ports : integer := 4;
-    constant number_of_cycles       : integer := 20;
+    constant counts_to_switch       : integer := 5; -- cuentas para switchear el one_hot
+    constant number_of_output_ports : integer := 4; -- 4 para la matriz 4x4
+    constant number_of_cycles       : integer := 5; -- cuentas para antirrebote
 
     ----- Simulation ------------------------------------------------------------------------------
     constant clk_period      : time := 10 ns;
     constant reset_off_time  : time := 80 ns;
     constant enable_off_time : time := 100 ns;
-    constant simulation_time : time := 20 ms;
+    constant simulation_time : time := 5000 ns;
 
     ----- Signals (i: entrada, o:salida, s:señal intermedia) --------------------------------------
     signal clk_i, rst_i, enable_i : std_logic;
 
-    signal in_ports : std_logic_vector (number_of_output_ports - 1 downto 0);
+    --component inputs
+    signal matrix_button  : std_logic_vector(number_of_output_ports - 1 downto 0);
+    signal ascii_caracter : std_logic_vector (7 downto 0); --ASCII
 
-    --one_hot
-    signal one_hot_out_ports : std_logic_vector(number_of_output_ports - 1 downto 0);
-
-    --bloque_arr
-    signal data      : std_logic_vector(number_of_output_ports - 1 downto 0);
-    signal out_ports : std_logic_vector(number_of_output_ports - 1 downto 0);
+    --component outputs
 
 begin
     ----- Component to validate -------------------------------------------------------------------
-    --one_hot_test : entity work.one_hot
-    --    generic map(counts_to_switch, number_of_output_ports)
-    --    port map(clk_i, rst_i, one_hot_out_ports);
-
-    --bloque_ar_test : entity work.bloque_antirrebote
-    --    generic map((number_of_cycles - 3), number_of_output_ports)
-    --    port map(clk_i, one_hot_out_ports, data, out_ports);
-
-    oneHot_ar_text : entity work.oneHot_antirrebote
+    oneHot_ar_deco_test : entity work.oneHot_antirrebote_deco
         generic map(counts_to_switch, number_of_output_ports, number_of_cycles)
-        port map(clk_i, rst_i, in_ports, out_ports);
-
+        port map(clk_i, rst_i, matrix_button, ascii_caracter);
     ----- Code ------------------------------------------------------------------------------------
 
     -- clock stimulus
@@ -75,7 +60,7 @@ begin
     reset : process
     begin
         rst_i <= '0';
-        wait for 20 * reset_off_time;
+        wait for reset_off_time;
         rst_i <= '1';
         wait;
     end process;
@@ -91,24 +76,15 @@ begin
     -- component to validate stimulus
     --
     --
-    -- signals conection
-    --data <= in_ports and one_hot_out_ports; -- simula la matriz
-
     ejecucion : process
     begin
-        in_ports <= "0000";
-        wait for 50000 * clk_period;
-        in_ports <= "0001";
-        wait for 200000 * clk_period;
-        in_ports <= "0000";
-        wait for 200000 * clk_period;
-        in_ports <= "0100";
-        wait for 200000 * clk_period;
-        in_ports <= "1000";
-        wait for 200000 * clk_period;
-        in_ports <= "0110";
-        wait for 200000 * clk_period;
-        in_ports <= "0100";
+        matrix_button <= "0000";
+        wait for 100 ns;
+        matrix_button <= "0001";
+        wait for 500 us;
+        matrix_button <= "0001";
+        wait for 500 us;
+        matrix_button <= "0010";
 
         wait;
     end process;
