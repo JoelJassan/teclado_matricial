@@ -29,7 +29,7 @@ architecture a_oneHot_antirrebote_deco_tb of oneHot_antirrebote_deco_tb is
     constant clk_period      : time := 10 ns;
     constant reset_off_time  : time := 80 ns;
     constant enable_off_time : time := 100 ns;
-    constant simulation_time : time := 5000 ns;
+    constant simulation_time : time := 1 ms;
 
     ----- Signals (i: entrada, o:salida, s:señal intermedia) --------------------------------------
     signal clk_i, rst_i, enable_i : std_logic;
@@ -76,17 +76,50 @@ begin
     -- component to validate stimulus
     --
     --
-    ejecucion : process
+    matrix : process
+        variable flag : integer := 0;
     begin
-        matrix_button <= "0000";
-        wait for 100 ns;
-        matrix_button <= "0001";
-        wait for 500 us;
-        matrix_button <= "0001";
-        wait for 500 us;
-        matrix_button <= "0010";
+        if flag = 0 then
+            flag := 1;
+            wait for 1 us;
+        end if;
+
+        matrix_button <= "0000"; --nada
+        wait for 100 us;
+        matrix_button <= "0010"; --0
+        wait for 100 us;
+        matrix_button <= "0001"; --1
+        wait for 100 us;
+        matrix_button <= "0010"; --2
+        wait for 100 us;
+        matrix_button <= "0100"; --3
+        wait for 100 us;
+        matrix_button <= "0001"; --4
+        wait for 100 us;
+        matrix_button <= "0010"; --5
+        wait for 100 us;
+        matrix_button <= "0100"; --6
+        wait for 100 us;
+        matrix_button <= "0001"; --7
+        wait for 100 us;
+        matrix_button <= "0010"; --8
+        wait for 100 us;
+        matrix_button <= "0100"; --9
+        wait for 100 us;
+        matrix_button <= "1000"; --A
+        wait for 100 us;
+        matrix_button <= "1000"; --B
+        wait for 100 us;
+        matrix_button <= "1000"; --C
+        wait for 100 us;
+        matrix_button <= "1000"; --D
+        wait for 100 us;
+        matrix_button <= "0001"; --*
+        wait for 100 us;
+        matrix_button <= "0100"; --#
 
         wait;
+
     end process;
     --
     --

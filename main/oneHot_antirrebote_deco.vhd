@@ -83,4 +83,5 @@ begin
 
     -- Logica Salida
     caracter_port <= caracter_port_s;
+
 end architecture;

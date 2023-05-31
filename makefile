@@ -5,7 +5,7 @@ CMP_DIR = ./components
 TB_DIR  = ./testbench
 
 # archivos
-MAIN_FILE = decodificador_matriz_ascii
+MAIN_FILE = oneHot_antirrebote_deco
 TB_FILE = $(MAIN_FILE)_tb
 VCD_FILE = $(TB_FILE).vcd
 

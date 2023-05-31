@@ -38,18 +38,21 @@ architecture a_decodificador_matriz_ascii of decodificador_matriz_ascii is
     ----- Constants -------------------------------------------------------------------------------
 
     ----- Signals (i: entrada, o:salida, s:señal intermedia)---------------------------------------
-    signal caracter : character; --'A'
+    signal caracter        : character; --'A'
+    signal one_hot         : std_logic_vector (3 downto 0);
+    signal matrix_out_prev : std_logic_vector (3 downto 0);
 begin
     ----- Components ------------------------------------------------------------------------------
 
     ----- Codigo ----------------------------------------------------------------------------------
-
+    one_hot <= one_hot_in;
     -- Logica Estado Siguiente
 
     -- Logica Salida
-    process (matrix_out, one_hot_in)
+    process (matrix_out, one_hot)
     begin
-        case (one_hot_in & matrix_out) is
+        --if (matrix_out /= matrix_out_prev) then
+        case (one_hot & matrix_out) is
             when "00010001" => caracter <= '1';
             when "00010010" => caracter <= '2';
             when "00010100" => caracter <= '3';
@@ -71,7 +74,12 @@ begin
             when "10001000" => caracter <= 'D';
 
             when others => caracter <= '-';
+
         end case;
+
+        matrix_out_prev <= matrix_out;
+
+        --end if;
     end process;
 
     --caracter_port <= caracter;
