@@ -14,17 +14,17 @@
 
 library ieee;
 use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
 
 entity decodificador_matriz_ascii is
 
     port (
         --input ports
-        clk    : in std_logic;
-        reset  : in std_logic;
-        enable : in std_logic;
+        clk   : in std_logic;
+        reset : in std_logic;
 
         one_hot_in : in std_logic_vector (3 downto 0);
-        matriz_out : in std_logic_vector (3 downto 0);
+        matrix_out : in std_logic_vector (3 downto 0);
         --output ports
         caracter_port : out std_logic_vector (7 downto 0) --ASCII
     );
@@ -47,9 +47,9 @@ begin
     -- Logica Estado Siguiente
 
     -- Logica Salida
-    process (matriz_out)
+    process (matrix_out, one_hot_in)
     begin
-        case (one_hot_in & matriz_out) is
+        case (one_hot_in & matrix_out) is
             when "00010001" => caracter <= '1';
             when "00010010" => caracter <= '2';
             when "00010100" => caracter <= '3';
@@ -66,7 +66,7 @@ begin
             when "01001000" => caracter <= 'C';
                 --
             when "10000001" => caracter <= '*';
-            when "10000010" => caracter <= '2';
+            when "10000010" => caracter <= '0';
             when "10000100" => caracter <= '#';
             when "10001000" => caracter <= 'D';
 
@@ -74,6 +74,7 @@ begin
         end case;
     end process;
 
-    --caracter_port <= std_logic_vector(to_unsigned(character'pos(ascii_value), 8));
+    --caracter_port <= caracter;
+    caracter_port <= std_logic_vector(to_unsigned(character'pos(caracter), caracter_port'length));
 
 end architecture;
